@@ -1,0 +1,46 @@
+{
+  "name": "final-exam-course-rebuilder-skill",
+  "version": "1.0.0",
+  "description": "A Codex SKILL for generating a structured final-exam review pack from course PDFs/PPTs.",
+  "author": "Liam",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "codex",
+    "skill",
+    "education",
+    "final-exam",
+    "course",
+    "review"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2214331539/Initial-release-final-exam-course-rebuilder-skill.git"
+  },
+  "homepage": "https://github.com/2214331539/Initial-release-final-exam-course-rebuilder-skill#readme",
+  "bugs": {
+    "url": "https://github.com/2214331539/Initial-release-final-exam-course-rebuilder-skill/issues"
+  },
+  "bin": {
+    "final-exam-course-rebuilder-skill": "./bin/final-exam-course-rebuilder-skill.js"
+  },
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "package.json",
+    "bin/",
+    "assets/",
+    "references/",
+    "scripts/",
+    "examples/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

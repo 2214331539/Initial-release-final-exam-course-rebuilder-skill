@@ -66,6 +66,47 @@ final-exam-course-rebuilder-skill/
         └── 01_分布式事务与并发控制示例.md
 ```
 
+## 这是什么 Skill
+
+这是一个可直接被 Codex 使用的 `SKILL.md` 技能集合（不是模型或 CLI 工具本体），用于把课程 PDF/PPT 课件快速重建为考试复习结构化内容。核心产出是：
+
+- `00_课程总览.md`：课程地图与复习优先级总表
+- `01_xxx.md` / `02_xxx.md`：各知识模块知识手册
+- `images/`：关键图示文件（可选）
+- `source_map/`：源文件与页码/幻灯片映射（可选）
+
+它依赖你在提示中给出的课程材料，而不是本地代码执行课件解析，因此更适合作为“行为约束 + 输出结构模板 + 参考流程”的可复用指令集。
+
+## 下载与安装（推荐）
+
+你现在可以通过 `npx` 直接把它装入本地 Codex 的技能目录，装完后在对话里通过文本触发。
+
+### 一键安装到 Codex
+
+```bash
+npx final-exam-course-rebuilder-skill install
+```
+
+安装后会将仓库内容拷贝到：
+
+```text
+~/.codex/skills/final-exam-course-rebuilder
+```
+
+然后重启 Codex 生效。
+
+### 卸载
+
+```bash
+npx final-exam-course-rebuilder-skill uninstall
+```
+
+### 查看本机安装路径
+
+```bash
+npx final-exam-course-rebuilder-skill path
+```
+
 ## 如何使用
 
 ### 方式一：作为支持 `SKILL.md` 的 Agent Skill 使用
@@ -78,11 +119,16 @@ final-exam-course-rebuilder-skill/
 请使用 final-exam-course-rebuilder skill，读取我上传的所有数据库课程 PDF/PPT，生成一套期末复习 Markdown 文档。
 ```
 
+### 方式三：通过 `$` 命令本地调用
+
+在安装到本机后，可在本地 Codex 会话中自然使用该 skill（按你环境的触发策略通常是指令式调用，等同于：  
+**“请使用 final-exam-course-rebuilder”/“请使用课程复习重建 skill”**）。
+
 ### 方式二：手动复制 `SKILL.md`
 
 如果你的平台支持自定义 Skill，但不支持直接读取 GitHub 仓库，可以复制 `SKILL.md` 的内容到平台的 Skill 创建界面，再将 `assets/` 和 `references/` 中的模板作为附加参考材料上传。
 
-### 方式三：仅使用模板
+### 方式四：仅使用模板
 
 也可以不在 AI 平台中安装 Skill，而是直接使用：
 
