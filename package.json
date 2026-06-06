@@ -1,6 +1,6 @@
 {
   "name": "final-exam-course-rebuilder-skill",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Codex SKILL for generating a structured final-exam review pack from course PDFs/PPTs.",
   "author": "Liam",
   "license": "MIT",
