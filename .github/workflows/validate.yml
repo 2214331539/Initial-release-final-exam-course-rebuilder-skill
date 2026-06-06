@@ -1,0 +1,20 @@
+name: Validate Review Pack Scripts
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Create scaffold
+        run: |
+          python scripts/create_review_scaffold.py --course-name "数据库系统" --modules "基础概念,事务与并发控制,查询优化" --out-dir /tmp/course_review_output
+      - name: Validate scaffold
+        run: |
+          python scripts/validate_review_pack.py /tmp/course_review_output

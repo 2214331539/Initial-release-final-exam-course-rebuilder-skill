@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated review packs
+course_review_output/
+*_review_output/
+
+# OS/editor files
+.DS_Store
+.idea/
+.vscode/
+
+# Temporary files
+*.tmp
+*.log
