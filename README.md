@@ -1,182 +1,15 @@
 # Final Exam Course Rebuilder Skill
 
-一个面向期末周短期速成复习的课程知识结构化 Skill。
+[![npm version](https://img.shields.io/npm/v/final-exam-course-rebuilder-skill.svg)](https://www.npmjs.com/package/final-exam-course-rebuilder-skill)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-它的目标不是生成普通摘要，也不是做学习打卡、题库或数据分析，而是把一门课的 PDF/PPT 课件系统化重建为一组可直接复习的 Markdown 文档：
+`final-exam-course-rebuilder` is a Codex Skill for turning a course's PDF/PPT lecture materials into a source-grounded, exam-oriented Markdown review pack.
 
-- `00_课程总览.md`：从宏观视角解释这门课的知识体系、模块结构、学习主线和期末复习优先级。
-- `01_模块名称.md`、`02_模块名称.md` 等：针对每个知识模块生成结构化知识手册。
-- `images/`：保存或引用课件中的关键图示、表格、流程图、架构图、示例图。
-- `source_map/`：保存模块与原始课件页码/幻灯片范围的对应关系。
+It is designed for final-exam sprint review: when a student has limited time, many scattered course files, and needs a clear course map before studying each module in detail.
 
-## 适用场景
+## What It Produces
 
-适用于：
-
-- 期末周只剩 1-2 周，需要快速理解一门课。
-- 用户上传了大量 PDF/PPT 课件，但不知道课程整体结构。
-- 需要先生成课程总览，再按模块生成知识手册。
-- 需要把抽象知识、流程、算法、架构图和例子整理为考试友好的 Markdown 文档。
-
-不适用于：
-
-- 长期学习打卡。
-- 学习数据分析。
-- 游戏化闯关。
-- 默认生成完整自测题库。
-- 单纯压缩摘要。
-
-## 核心工作流
-
-本 Skill 强制采用“两遍阅读”工作流：
-
-1. **全局阅读**：先阅读所有 PDF/PPT，生成课程级知识结构和 `00_课程总览.md`。
-2. **模块回读**：在生成每个具体模块知识手册前，必须再次阅读该模块相关的原始课件页码/幻灯片，保证内容准确、完整、详略有序。
-
-这个设计是本 Skill 的关键。它可以避免模型只根据第一遍摘要进行泛泛输出，从而减少漏点、错点和幻觉。
-
-## 仓库结构
-
-```text
-final-exam-course-rebuilder-skill/
-├── SKILL.md
-├── README.md
-├── LICENSE
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── assets/
-│   └── templates/
-│       ├── course_overview_template.md
-│       ├── module_manual_template.md
-│       ├── review_pack_readme_template.md
-│       └── source_map_template.csv
-├── references/
-│   ├── workflow.md
-│   ├── output_schema.md
-│   ├── source_grounding_protocol.md
-│   └── quality_checklist.md
-├── scripts/
-│   ├── create_review_scaffold.py
-│   └── validate_review_pack.py
-└── examples/
-    ├── sample_input/
-    │   └── course_manifest.example.md
-    └── sample_output/
-        ├── 00_课程总览示例.md
-        └── 01_分布式事务与并发控制示例.md
-```
-
-## 这是什么 Skill
-
-这是一个可直接被 Codex 使用的 `SKILL.md` 技能集合（不是模型或 CLI 工具本体），用于把课程 PDF/PPT 课件快速重建为考试复习结构化内容。核心产出是：
-
-- `00_课程总览.md`：课程地图与复习优先级总表
-- `01_xxx.md` / `02_xxx.md`：各知识模块知识手册
-- `images/`：关键图示文件（可选）
-- `source_map/`：源文件与页码/幻灯片映射（可选）
-
-它依赖你在提示中给出的课程材料，而不是本地代码执行课件解析，因此更适合作为“行为约束 + 输出结构模板 + 参考流程”的可复用指令集。
-
-## 下载与安装（推荐）
-
-你现在可以通过 `npx` 直接把它装入本地 Codex 的技能目录，装完后在对话里通过文本触发。
-
-### 一键安装到 Codex
-
-```bash
-npx final-exam-course-rebuilder-skill install
-```
-
-安装后会将仓库内容拷贝到：
-
-```text
-~/.codex/skills/final-exam-course-rebuilder
-```
-
-然后重启 Codex 生效。
-
-### 卸载
-
-```bash
-npx final-exam-course-rebuilder-skill uninstall
-```
-
-### 查看本机安装路径
-
-```bash
-npx final-exam-course-rebuilder-skill path
-```
-
-## 如何使用
-
-### 方式一：作为支持 `SKILL.md` 的 Agent Skill 使用
-
-将整个仓库下载或 clone 到你的本地环境，然后把该目录作为 Skill 目录提供给支持 `SKILL.md` 的 AI 工具。
-
-触发方式示例：
-
-```text
-请使用 final-exam-course-rebuilder skill，读取我上传的所有数据库课程 PDF/PPT，生成一套期末复习 Markdown 文档。
-```
-
-### 方式三：通过 `$` 命令本地调用
-
-在安装到本机后，可在本地 Codex 会话中自然使用该 skill（按你环境的触发策略通常是指令式调用，等同于：  
-**“请使用 final-exam-course-rebuilder”/“请使用课程复习重建 skill”**）。
-
-### 方式二：手动复制 `SKILL.md`
-
-如果你的平台支持自定义 Skill，但不支持直接读取 GitHub 仓库，可以复制 `SKILL.md` 的内容到平台的 Skill 创建界面，再将 `assets/` 和 `references/` 中的模板作为附加参考材料上传。
-
-### 方式四：仅使用模板
-
-也可以不在 AI 平台中安装 Skill，而是直接使用：
-
-- `assets/templates/course_overview_template.md`
-- `assets/templates/module_manual_template.md`
-- `references/workflow.md`
-- `references/source_grounding_protocol.md`
-
-作为提示词和输出格式规范。
-
-## 辅助脚本
-
-### 创建输出目录骨架
-
-```bash
-python scripts/create_review_scaffold.py --course-name "数据库系统" --modules "基础概念,事务与并发控制,查询优化,恢复与容错"
-```
-
-该命令会生成类似：
-
-```text
-course_review_output/
-├── README.md
-├── 00_课程总览.md
-├── 01_基础概念.md
-├── 02_事务与并发控制.md
-├── 03_查询优化.md
-├── 04_恢复与容错.md
-├── images/
-└── source_map/
-```
-
-### 校验输出文档结构
-
-```bash
-python scripts/validate_review_pack.py course_review_output
-```
-
-该脚本会检查：
-
-- 是否存在 `00_课程总览.md`。
-- 每个模块文档是否包含关键章节。
-- 是否存在 `source_map/`。
-- 是否存在 `images/`。
-
-## 推荐生成结果
-
-最终交付最好是一组 Markdown 文件，而不是一份超长文档。推荐结构：
+The skill guides Codex to generate a structured review pack such as:
 
 ```text
 course_review_output/
@@ -190,13 +23,158 @@ course_review_output/
     └── module_source_map.md
 ```
 
-## 设计原则
+Typical outputs include:
 
-1. **系统结构优先**：先让学生看到课程地图，再进入具体模块。
-2. **模块回读强制**：每个模块生成前都必须回到原课件复核。
-3. **源文件可追溯**：关键知识点、图示、公式、例子尽量标注来源文件和页码/幻灯片。
-4. **考试导向**：突出高频考点、易混淆点、流程题、简答题答案模板。
-5. **不过度产品化**：不加入打卡、积分、排行榜、学习数据仪表盘等功能。
+- `00_课程总览.md`: a course-level map, module tree, dependency explanation, review priority table, and sprint review route.
+- `01_<模块名称>.md`, `02_<模块名称>.md`: module-level knowledge handbooks with concepts, mechanisms, diagrams, examples, confusing comparisons, and exam takeaways.
+- `images/`: extracted or referenced diagrams, tables, workflows, architecture figures, or examples.
+- `source_map/`: source tracking between modules and original PDF/PPT pages or slides.
+
+## When To Use
+
+Use this skill when you need to:
+
+- Build a final-exam review pack from many course PDFs, PPTs, or lecture notes.
+- Understand a course from the top down before memorizing details.
+- Generate a `00_课程总览.md` first, then create one Markdown handbook per module.
+- Preserve important formulas, examples, diagrams, workflows, and source locations.
+- Turn scattered materials into exam-friendly, structured Markdown notes.
+
+This skill is not intended for long-term study tracking, gamified learning, learning analytics, or quiz-bank generation by default.
+
+## Install With npx
+
+The package is published on npm and can be installed directly into your local Codex skills directory:
+
+```bash
+npx final-exam-course-rebuilder-skill install
+```
+
+By default, the installer copies the skill to:
+
+```text
+~/.codex/skills/final-exam-course-rebuilder
+```
+
+After installation, restart Codex once so it can load the new skill.
+
+## Use In Codex
+
+After installing and restarting Codex, call the skill in a local Codex conversation.
+
+If your Codex client supports `$` skill invocation, use:
+
+```text
+$final-exam-course-rebuilder
+
+请读取我提供的数据库课程 PDF/PPT，生成一套期末复习 Markdown 文档。先生成 00_课程总览.md，再按模块生成知识手册，并标注来源页码或幻灯片。
+```
+
+You can also trigger it naturally:
+
+```text
+请使用 final-exam-course-rebuilder skill，读取我上传的所有数据库课程 PDF/PPT，生成一套期末复习 Markdown 文档。
+```
+
+A more detailed prompt can include course name, exam date, time left, and any teacher-provided review outline:
+
+```text
+$final-exam-course-rebuilder
+
+课程名称：分布式数据库系统
+考试时间：两周后
+输入材料：当前目录下所有 PDF/PPT/PPTX
+目标：生成适合期末冲刺复习的 Markdown 资料包，包括课程总览、模块知识手册、重要图示说明、易混淆点对比和来源映射。
+```
+
+## CLI Commands
+
+Install or update the skill:
+
+```bash
+npx final-exam-course-rebuilder-skill install
+```
+
+Show the local install path:
+
+```bash
+npx final-exam-course-rebuilder-skill path
+```
+
+Uninstall the skill:
+
+```bash
+npx final-exam-course-rebuilder-skill uninstall
+```
+
+## Manual Installation
+
+If you prefer installing from GitHub:
+
+```bash
+git clone https://github.com/2214331539/Initial-release-final-exam-course-rebuilder-skill.git
+cd Initial-release-final-exam-course-rebuilder-skill
+node bin/final-exam-course-rebuilder-skill.js install
+```
+
+Then restart Codex.
+
+## Core Workflow
+
+The skill follows a mandatory two-pass reading workflow:
+
+1. Global reading: read all available materials to infer the full course structure and generate `00_课程总览.md`.
+2. Module re-reading: before writing each module handbook, re-read the relevant PDF/PPT pages or slides for that module.
+
+This prevents the output from becoming a shallow file-by-file summary. The goal is to rebuild the course as a usable knowledge system while keeping source references traceable.
+
+## Bundled Resources
+
+The package includes:
+
+- `SKILL.md`: the Codex skill definition and workflow instructions.
+- `assets/templates/`: Markdown templates for course overviews, module handbooks, review-pack README files, and source maps.
+- `references/`: workflow, output schema, source-grounding protocol, and quality checklist.
+- `scripts/`: helper scripts for creating and validating a review-pack scaffold.
+- `examples/`: sample input manifest and sample generated outputs.
+
+## Helper Scripts
+
+Create a review-pack scaffold:
+
+```bash
+python scripts/create_review_scaffold.py --course-name "数据库系统" --modules "基础概念,事务与并发控制,查询优化,恢复与容错"
+```
+
+Validate a generated review-pack structure:
+
+```bash
+python scripts/validate_review_pack.py course_review_output
+```
+
+The validator checks for required Markdown files, expected section headings, and the presence of `images/` and `source_map/`.
+
+## Repository Structure
+
+```text
+final-exam-course-rebuilder-skill/
+├── SKILL.md
+├── README.md
+├── package.json
+├── bin/
+│   └── final-exam-course-rebuilder-skill.js
+├── assets/
+│   └── templates/
+├── references/
+├── scripts/
+└── examples/
+```
+
+## Requirements
+
+- Node.js 18 or newer for the `npx` installer.
+- A local Codex environment that loads skills from `~/.codex/skills`.
+- Course materials such as PDF, PPT, PPTX, lecture notes, syllabus files, review outlines, or sample exam questions.
 
 ## License
 
