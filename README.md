@@ -27,8 +27,8 @@ Typical outputs include:
 
 - `00_课程总览.md`: a course-level map, module tree, dependency explanation, review priority table, and sprint review route.
 - `01_<模块名称>.md`, `02_<模块名称>.md`: module-level knowledge handbooks with concepts, mechanisms, diagrams, examples, confusing comparisons, and exam takeaways.
-- `images/`: extracted or referenced diagrams, tables, workflows, architecture figures, or examples.
-- `source_map/`: source tracking between modules and original PDF/PPT pages or slides.
+- `images/`: preserved diagrams, structure charts, workflows, architecture figures, complex tables, or example screenshots extracted or cropped from the original courseware.
+- `source_map/`: source tracking between modules, original PDF/PPT pages or slides, and preserved image paths.
 
 ## When To Use
 
@@ -38,6 +38,7 @@ Use this skill when you need to:
 - Understand a course from the top down before memorizing details.
 - Generate a `00_课程总览.md` first, then create one Markdown handbook per module.
 - Preserve important formulas, examples, diagrams, workflows, and source locations.
+- Insert important source images into the generated Markdown instead of replacing them with text-only descriptions.
 - Turn scattered materials into exam-friendly, structured Markdown notes.
 
 This skill is not intended for long-term study tracking, gamified learning, learning analytics, or quiz-bank generation by default.
@@ -125,6 +126,7 @@ The skill follows a mandatory two-pass reading workflow:
 
 1. Global reading: read all available materials to infer the full course structure and generate `00_课程总览.md`.
 2. Module re-reading: before writing each module handbook, re-read the relevant PDF/PPT pages or slides for that module.
+3. Image preservation: extract, screenshot, or crop important courseware visuals into `images/`, then insert them into the relevant Markdown files with source locations.
 
 This prevents the output from becoming a shallow file-by-file summary. The goal is to rebuild the course as a usable knowledge system while keeping source references traceable.
 

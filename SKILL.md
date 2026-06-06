@@ -15,7 +15,7 @@ The primary deliverables are Markdown files:
 
 - `00_课程总览.md`: the course-level map, module tree, learning logic, and exam-oriented priority overview.
 - One Markdown knowledge handbook per module, such as `01_数据库系统基础.md`, `02_事务与并发控制.md`, etc.
-- Optional `images/` folder containing extracted or referenced figures from the original PDF/PPT materials.
+- `images/` folder containing extracted or screenshot-preserved figures from the original PDF/PPT materials whenever visual material is important for understanding.
 - Optional `README.md` explaining how to use the generated review pack.
 
 This skill does **not** focus on self-test banks, gamification, learning analytics, daily check-ins, or long-term tracking.
@@ -64,6 +64,7 @@ For each module, maintain a source map that records:
 - Which files support this module.
 - Which pages/slides are relevant.
 - Which figures, tables, examples, algorithms, formulas, or diagrams should be included.
+- Which important source images were extracted, where they were saved, and where they were inserted in Markdown.
 - Which content appears repeatedly across different files and is therefore likely important.
 
 When exact page/slide numbers are available, cite them in the generated Markdown. If exact page/slide numbers are unavailable, cite the filename and section/chapter.
@@ -156,6 +157,7 @@ For each module, record:
 - Relevant page/slide ranges.
 - Key concepts.
 - Key diagrams/figures.
+- Required image assets to preserve, including suggested local image filenames.
 - Key examples.
 - Key formulas or algorithms.
 - Possible final exam angles.
@@ -168,9 +170,10 @@ For each module, before drafting the module Markdown file:
 
 1. Re-open or re-extract the relevant PDF/PPT pages/slides from the module-source map.
 2. Re-check definitions, formulas, algorithm steps, diagrams, examples, and teacher emphasis.
-3. Compare the source material with the planned module knowledge tree.
-4. Add missing subtopics before writing.
-5. Remove content that is not supported by the course material unless explicitly labeled as supplementary explanation.
+3. Identify visual assets that must be preserved, especially structure diagrams, architecture diagrams, workflows, formula derivation screenshots, comparison tables, and example traces.
+4. Compare the source material with the planned module knowledge tree.
+5. Add missing subtopics before writing.
+6. Remove content that is not supported by the course material unless explicitly labeled as supplementary explanation.
 
 Never generate a module handbook solely from the global course overview.
 
@@ -195,7 +198,7 @@ The module handbook must explain concepts with context and hierarchy. It should 
 
 ### Step 6: Examples and figures handling
 
-When a concept needs visual or example-based understanding, include a dedicated section.
+When a concept needs visual or example-based understanding, include a dedicated section and preserve the original visual whenever possible. Important courseware images must not be replaced by text-only descriptions unless extraction is impossible in the current environment.
 
 Look especially for:
 
@@ -210,15 +213,29 @@ Look especially for:
 - ER/UML diagrams.
 - Query plans.
 
+For every important visual asset:
+
+1. Extract the original image, export the slide region, or create a faithful screenshot/crop from the source page/slide.
+2. Save it under `images/` using a stable, readable filename such as `module02_slide14_architecture.png` or `module03_fig02_2pc_flow.png`.
+3. Insert the saved image in the relevant module Markdown near the explanation using Markdown image syntax.
+4. Explain the figure after the image, not instead of the image.
+5. Record the image path, source file, page/slide, and extraction status in the module's source map or source review table.
+
 For each important figure, include:
 
 - Figure title.
+- Markdown image reference, for example `![两阶段提交流程图](images/module02_slide14_2pc_flow.png)`.
 - Source file and page/slide.
+- Local image path.
 - Why the figure matters.
 - How to read the figure.
 - Key exam takeaway.
 
-If the environment can extract images, save them into `images/` and reference them with Markdown image syntax. If not, still list the figure and explain it with source location.
+If the environment can extract, screenshot, or crop images, save them into `images/` and insert them with Markdown image syntax. If image extraction is impossible, keep a visible placeholder with the source location and explain the limitation, for example:
+
+```markdown
+> 图示待补：原图位于 `chapter_04_transactions.pdf` p.18。当前环境无法提取图片，因此先保留来源定位和读图说明。
+```
 
 ### Step 7: Exam-oriented refinement
 
@@ -262,6 +279,8 @@ Before completion, verify:
 - Every module handbook was written after re-reading relevant sources.
 - Each module contains a knowledge tree.
 - Important examples and figures are not lost.
+- Important source figures are preserved as image files under `images/` and inserted into the relevant Markdown files whenever extraction is possible.
+- Any important figure that could not be extracted has an explicit placeholder, source location, and reason.
 - Definitions, formulas, algorithms, and process steps match the source files.
 - Inferred exam priority is clearly labeled as inference.
 - The output is useful for a student with limited final-exam preparation time.
@@ -278,5 +297,6 @@ Do not:
 - Generate module handbooks without module-level re-reading.
 - Treat all details as equally important.
 - Omit diagrams, examples, tables, or formulas that are essential for understanding.
+- Replace important courseware diagrams with text-only descriptions when image extraction or screenshotting is available.
 - Create quiz banks, flashcards, dashboards, gamification, or learning analytics unless explicitly requested.
 - Pretend unsupported material came from the course files.

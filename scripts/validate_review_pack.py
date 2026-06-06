@@ -8,6 +8,7 @@ source-grounding must still be checked by the AI/user against the original PDFs/
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 
 REQUIRED_OVERVIEW_SECTIONS = [
@@ -38,6 +39,11 @@ REQUIRED_MODULE_SECTIONS = [
 def check_sections(path: Path, sections: list[str]) -> list[str]:
     text = path.read_text(encoding="utf-8")
     return [section for section in sections if section not in text]
+
+
+def image_links(path: Path) -> list[str]:
+    text = path.read_text(encoding="utf-8")
+    return re.findall(r"!\[[^\]]*\]\(([^)]+)\)", text)
 
 
 def main() -> None:
@@ -72,10 +78,22 @@ def main() -> None:
         for section in missing:
             errors.append(f"{module_file.name} missing section: {section}")
 
+        links = image_links(module_file)
+        if not links:
+            warnings.append(f"{module_file.name} has no Markdown image links in the module document")
+        for link in links:
+            if not link.startswith("images/"):
+                warnings.append(f"{module_file.name} image link should point into images/: {link}")
+                continue
+            if not (root / link).exists():
+                warnings.append(f"{module_file.name} image link target not found: {link}")
+
     if not (root / "source_map").exists():
         warnings.append("Missing source_map/ directory")
     if not (root / "images").exists():
         warnings.append("Missing images/ directory")
+    elif not any((root / "images").iterdir()):
+        warnings.append("images/ directory exists but contains no preserved image files")
 
     print("Validation result")
     print("=================")
